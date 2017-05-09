@@ -1,0 +1,583 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     21106,        573]
+NotebookOptionsPosition[     19634,        518]
+NotebookOutlinePosition[     19969,        533]
+CellTagsIndexPosition[     19926,        530]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Basic Genetic Algorithm", "Subsubsection",
+ CellChangeTimes->{{3.6845893534762*^9, 3.6845893576565027`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"GeneratePopulation", "[", 
+     RowBox[{"nItems_", ",", "populationSize_"}], "]"}], ":=", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"RandomInteger", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"0", ",", "1"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"populationSize", ",", "nItems"}], "}"}]}], "]"}]}], 
+     "\[IndentingNewLine]", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"GAIteration", "[", 
+     RowBox[{"population_", ",", "nChildren_"}], "]"}], ":=", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"children", ",", "newPopulation"}], "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"children", "=", 
+        RowBox[{"GenerateChildren", "[", 
+         RowBox[{"population", ",", "nChildren"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"newPopulation", "=", 
+        RowBox[{"Join", "[", 
+         RowBox[{"population", ",", "children"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"newPopulation", "=", 
+        RowBox[{"TournamentSurvival", "[", 
+         RowBox[{"newPopulation", ",", 
+          RowBox[{"Length", "[", "population", "]"}]}], "]"}]}]}]}], 
+     "\[IndentingNewLine]", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"GenerateChildren", "[", 
+     RowBox[{"population_", ",", "nChildren_"}], "]"}], ":=", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"parentPair", ",", "childrenPair", ",", "children"}], "}"}], 
+      ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"children", "=", 
+        RowBox[{"Table", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"parentPair", "=", 
+            RowBox[{"RandomSample", "[", 
+             RowBox[{"population", ",", "2"}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"childrenPair", "=", 
+            RowBox[{"OnePointCrossover", "[", 
+             RowBox[{
+              RowBox[{"parentPair", "[", 
+               RowBox[{"[", "1", "]"}], "]"}], ",", 
+              RowBox[{"parentPair", "[", 
+               RowBox[{"[", "2", "]"}], "]"}]}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"BinaryMutation", "[", 
+              RowBox[{"childrenPair", "[", 
+               RowBox[{"[", "1", "]"}], "]"}], "]"}], ",", 
+             RowBox[{"BinaryMutation", "[", 
+              RowBox[{"childrenPair", "[", 
+               RowBox[{"[", "2", "]"}], "]"}], "]"}]}], "}"}]}], 
+          "\[IndentingNewLine]", ",", 
+          RowBox[{"{", 
+           RowBox[{"Ceiling", "[", 
+            RowBox[{"nChildren", "/", "2"}], "]"}], "}"}]}], 
+         "\[IndentingNewLine]", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Flatten", "[", 
+         RowBox[{"children", ",", "1"}], "]"}], "[", 
+        RowBox[{"[", 
+         RowBox[{"1", ";;", "nChildren"}], "]"}], "]"}]}]}], 
+     "\[IndentingNewLine]", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"OnePointCrossover", "[", 
+     RowBox[{"parent1_", ",", "parent2_"}], "]"}], ":=", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "crossoverIndex", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"crossoverIndex", "=", 
+        RowBox[{"RandomInteger", "[", 
+         RowBox[{"{", 
+          RowBox[{"1", ",", 
+           RowBox[{"Length", "[", "parent1", "]"}]}], "}"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Join", "[", 
+          RowBox[{
+           RowBox[{"parent1", "[", 
+            RowBox[{"[", 
+             RowBox[{"1", ";;", 
+              RowBox[{"crossoverIndex", "-", "1"}]}], "]"}], "]"}], ",", 
+           RowBox[{"parent2", "[", 
+            RowBox[{"[", 
+             RowBox[{"crossoverIndex", ";;", 
+              RowBox[{"-", "1"}]}], "]"}], "]"}]}], "]"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"Join", "[", 
+          RowBox[{
+           RowBox[{"parent2", "[", 
+            RowBox[{"[", 
+             RowBox[{"1", ";;", 
+              RowBox[{"crossoverIndex", "-", "1"}]}], "]"}], "]"}], ",", 
+           RowBox[{"parent1", "[", 
+            RowBox[{"[", 
+             RowBox[{"crossoverIndex", ";;", 
+              RowBox[{"-", "1"}]}], "]"}], "]"}]}], "]"}]}], "}"}]}]}], 
+     "\[IndentingNewLine]", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"BinaryMutation", "[", "strategy_", "]"}], ":=", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"probMutation", ",", "newStrategy"}], "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"probMutation", "=", 
+        RowBox[{"2", "/", 
+         RowBox[{"Length", "[", "strategy", "]"}]}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"newStrategy", "=", "strategy"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Do", "[", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"RandomReal", "[", "]"}], "<", "probMutation"}], ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"newStrategy", "[", 
+             RowBox[{"[", "i", "]"}], "]"}], "=", 
+            RowBox[{"1", "-", 
+             RowBox[{"newStrategy", "[", 
+              RowBox[{"[", "i", "]"}], "]"}]}]}]}], "\[IndentingNewLine]", 
+          "]"}], "\[IndentingNewLine]", ",", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", "1", ",", 
+           RowBox[{"Length", "[", "newStrategy", "]"}]}], "}"}]}], 
+        "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+       "newStrategy"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"TournamentSurvival", "[", 
+     RowBox[{"population_", ",", "nStrategies_"}], "]"}], ":=", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "strategyPair", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"Table", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"strategyPair", "=", 
+          RowBox[{"RandomSample", "[", 
+           RowBox[{"population", ",", "2"}], "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"BetterStrategy", "[", 
+          RowBox[{
+           RowBox[{"strategyPair", "[", 
+            RowBox[{"[", "1", "]"}], "]"}], ",", 
+           RowBox[{"strategyPair", "[", 
+            RowBox[{"[", "2", "]"}], "]"}]}], "]"}]}], "\[IndentingNewLine]", 
+        ",", 
+        RowBox[{"{", "nStrategies", "}"}]}], "\[IndentingNewLine]", "]"}]}], 
+     "\[IndentingNewLine]", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"BetterStrategy", "[", 
+     RowBox[{"strategy1_", ",", "strategy2_"}], "]"}], ":=", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Fitness", "[", "strategy1", "]"}], "\[GreaterEqual]", 
+         RowBox[{"Fitness", "[", "strategy2", "]"}]}], ",", 
+        "\[IndentingNewLine]", "strategy1", ",", "\[IndentingNewLine]", 
+        "strategy2"}], "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Fitness", "[", "strategy_", "]"}], ":=", "\[IndentingNewLine]", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"weights", ".", "strategy"}], "\[LessEqual]", "maxWeight"}], 
+       ",", "\[IndentingNewLine]", 
+       RowBox[{"values", ".", "strategy"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"-", "1"}]}], "\[IndentingNewLine]", "]"}]}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.684589516274004*^9, 3.684589541989572*^9}, {
+   3.684589613587717*^9, 3.684589619149082*^9}, {3.6845896641693993`*^9, 
+   3.684589721762334*^9}, {3.684589854576066*^9, 3.6845898731712217`*^9}, {
+   3.684589951379057*^9, 3.684589961668157*^9}, {3.6845902987603273`*^9, 
+   3.684590423523332*^9}, {3.684590457998412*^9, 3.684590482144803*^9}, {
+   3.684590529547851*^9, 3.684590530209998*^9}, {3.6845907764593983`*^9, 
+   3.684590909158722*^9}, {3.6845914944293213`*^9, 3.684591506073539*^9}, {
+   3.6845916227009907`*^9, 3.684591726653989*^9}, {3.684592039068666*^9, 
+   3.684592072282021*^9}, {3.684592306523265*^9, 3.684592333154066*^9}, {
+   3.684592494485835*^9, 3.6845926434985523`*^9}, {3.684592742350122*^9, 
+   3.6845927602316*^9}, {3.684592797694968*^9, 3.684592832341569*^9}, {
+   3.684592898704669*^9, 3.68459291816054*^9}, {3.684592949293105*^9, 
+   3.684592953435556*^9}, {3.684592997025855*^9, 3.684593198588263*^9}, {
+   3.6845932607118692`*^9, 3.684593268016814*^9}, {3.684593308271277*^9, 
+   3.684593328451562*^9}, 3.6845938813556004`*^9, {3.684594309737699*^9, 
+   3.684594355976708*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"nItems", "=", "10"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"values", "=", 
+   RowBox[{"RandomReal", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0", ",", "10"}], "}"}], ",", "nItems"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"weights", "=", 
+   RowBox[{"RandomReal", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0", ",", "10"}], "}"}], ",", "nItems"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"maxWeight", "=", 
+   RowBox[{"2", "*", "nItems"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.684589379861844*^9, 3.6845894435292253`*^9}, {
+   3.6845984696591797`*^9, 3.684598496352769*^9}, 3.6845985626817923`*^9, {
+   3.684598623523704*^9, 3.684598624183241*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"populationSize", "=", "100"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"nChildren", "=", "100"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"initialPopulation", "=", 
+   RowBox[{"GeneratePopulation", "[", 
+    RowBox[{"nItems", ",", "populationSize"}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.6845898402434473`*^9, 3.684589845863717*^9}, {
+  3.684590017781355*^9, 3.684590020849224*^9}, {3.684590458476266*^9, 
+  3.684590461185041*^9}, {3.684590947746855*^9, 3.684590948832713*^9}, {
+  3.684598224834386*^9, 3.684598248795724*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Check that Tournament Survival Works", "Subsubsection",
+ CellChangeTimes->{{3.6845981570150433`*^9, 3.68459818511134*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"population", "=", "initialPopulation"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Do", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"population", "=", 
+     RowBox[{"TournamentSurvival", "[", 
+      RowBox[{"population", ",", 
+       RowBox[{"Length", "[", "population", "]"}]}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"tourneyPlot", "=", 
+     RowBox[{"ArrayPlot", "[", 
+      RowBox[{"Sort", "[", "population", "]"}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Pause", "[", "0.5", "]"}], ";"}], "\[IndentingNewLine]", ",", 
+   RowBox[{"{", "15", "}"}]}], "\[IndentingNewLine]", "]"}]}], "Input",
+ CellChangeTimes->{{3.684591047356432*^9, 3.684591056363818*^9}, {
+   3.684593744646666*^9, 3.684593794879472*^9}, {3.6845944147450857`*^9, 
+   3.6845944449069157`*^9}, {3.6845946604600563`*^9, 3.684594660567092*^9}, {
+   3.684594718478312*^9, 3.684594734229043*^9}, {3.684594765097683*^9, 
+   3.684594768720475*^9}, {3.684594816104183*^9, 3.6845948458614798`*^9}, {
+   3.684594890840622*^9, 3.684594893386764*^9}, {3.684594947011766*^9, 
+   3.6845950094998007`*^9}, 3.684595110162449*^9, {3.6845951747324343`*^9, 
+   3.68459517626243*^9}, 3.684595246555291*^9, {3.684595281669134*^9, 
+   3.684595283941125*^9}, {3.684595363870323*^9, 3.684595364035801*^9}, 
+   3.684598148071972*^9, {3.684598199347206*^9, 3.684598289129044*^9}, {
+   3.684598364950163*^9, 3.684598402939892*^9}, {3.684598634379716*^9, 
+   3.6845986364928217`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Dynamic", "[", "tourneyPlot", "]"}]], "Input",
+ CellChangeTimes->{{3.684593757228869*^9, 3.684593759224608*^9}, 
+   3.684598372964617*^9}],
+
+Cell[BoxData[
+ DynamicBox[ToBoxes[$CellContext`tourneyPlot, StandardForm],
+  ImageSizeCache->{47., {213., 219.}}]], "Output",
+ CellChangeTimes->{3.684598215255918*^9, 3.6845982638050537`*^9, 
+  3.6845983755937653`*^9, 3.684598580982274*^9, 3.684598641872088*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Try out the GA", "Subsubsection",
+ CellChangeTimes->{{3.6845983430027313`*^9, 3.684598347351821*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"population", "=", "initialPopulation"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Do", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"population", "=", 
+     RowBox[{"GAIteration", "[", 
+      RowBox[{"population", ",", "nChildren"}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"plot", "=", 
+     RowBox[{"ArrayPlot", "[", 
+      RowBox[{"Sort", "[", "population", "]"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", ",", 
+   RowBox[{"{", "1000", "}"}]}], "\[IndentingNewLine]", "]"}]}], "Input",
+ CellChangeTimes->{{3.684591047356432*^9, 3.684591056363818*^9}, {
+   3.684593744646666*^9, 3.684593794879472*^9}, {3.6845944147450857`*^9, 
+   3.6845944449069157`*^9}, {3.6845946604600563`*^9, 3.684594660567092*^9}, {
+   3.684594718478312*^9, 3.684594734229043*^9}, {3.684594765097683*^9, 
+   3.684594768720475*^9}, {3.684594816104183*^9, 3.6845948458614798`*^9}, {
+   3.684594890840622*^9, 3.684594893386764*^9}, {3.684594947011766*^9, 
+   3.6845950094998007`*^9}, 3.684595110162449*^9, {3.6845951747324343`*^9, 
+   3.68459517626243*^9}, 3.684595246555291*^9, {3.684595281669134*^9, 
+   3.684595283941125*^9}, {3.684595363870323*^9, 3.684595364035801*^9}, 
+   3.684598148071972*^9, {3.684598305157545*^9, 3.684598337196409*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Dynamic", "[", "plot", "]"}]], "Input",
+ CellChangeTimes->{{3.684593757228869*^9, 3.684593759224608*^9}}],
+
+Cell[BoxData[
+ DynamicBox[ToBoxes[$CellContext`plot, StandardForm],
+  ImageSizeCache->{47., {213., 219.}}]], "Output",
+ CellChangeTimes->{3.684593762496711*^9, 3.684594436502102*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"sol", "=", 
+  RowBox[{
+   RowBox[{"Commonest", "[", "population", "]"}], "[", 
+   RowBox[{"[", "1", "]"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.684598411515867*^9, 3.684598428610353*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+  "1", ",", "0", ",", "1", ",", "0", ",", "0", ",", "1", ",", "0", ",", "0", 
+   ",", "0", ",", "1"}], "}"}]], "Output",
+ CellChangeTimes->{{3.684598419114379*^9, 3.68459845337106*^9}, 
+   3.684598534907878*^9, 3.684598610643091*^9, 3.68459866333661*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"sol", ".", "values"}]], "Input",
+ CellChangeTimes->{{3.6845984322536182`*^9, 3.684598444955195*^9}}],
+
+Cell[BoxData["24.56464773527706`"], "Output",
+ CellChangeTimes->{{3.684598441881793*^9, 3.68459845133444*^9}, 
+   3.684598536029711*^9, 3.6845986117735653`*^9, 3.68459867042346*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"sol", ".", "weights"}]], "Input",
+ CellChangeTimes->{3.684598449556943*^9}],
+
+Cell[BoxData["17.397896224798707`"], "Output",
+ CellChangeTimes->{{3.684598441886108*^9, 3.684598446745305*^9}, 
+   3.68459853666967*^9, 3.684598612444934*^9, 3.684598671179336*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["The Actual Solution", "Subsubsection",
+ CellChangeTimes->{{3.684595634809964*^9, 3.684595642302945*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"KnapsackMaximize", "[", 
+    RowBox[{"values_", ",", "weights_", ",", "maxWeight_"}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"nItems", "=", 
+        RowBox[{"Length", "[", "values", "]"}]}], ",", "variables", ",", 
+       "\[Delta]"}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"variables", "=", 
+       RowBox[{"Array", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Subscript", "[", 
+           RowBox[{"\[Delta]", ",", "#"}], "]"}], "&"}], ",", "nItems"}], 
+        "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"NMaximize", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"values", ".", "variables"}], ",", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"variables", ".", "weights"}], "\[LessEqual]", 
+            "maxWeight"}], "&&", "\[IndentingNewLine]", 
+           RowBox[{"(", 
+            RowBox[{"And", "@@", 
+             RowBox[{"Thread", "[", 
+              RowBox[{"0", "\[LessEqual]", "variables", "\[LessEqual]", "1"}],
+               "]"}]}], ")"}]}]}], "}"}], ",", "\[IndentingNewLine]", 
+        "variables", ",", "Integers"}], "\[IndentingNewLine]", "]"}]}]}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.652652596610866*^9, 3.652652805697193*^9}, {
+   3.652652862402431*^9, 3.652652863490375*^9}, 3.6845955546068373`*^9, {
+   3.684595604524633*^9, 3.684595635333068*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"KnapsackMaximize", "[", 
+   RowBox[{"values", ",", "weights", ",", "maxWeight"}], "]"}], "[", 
+  RowBox[{"[", "1", "]"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Values", "@", 
+  RowBox[{
+   RowBox[{"KnapsackMaximize", "[", 
+    RowBox[{"values", ",", "weights", ",", "maxWeight"}], "]"}], "[", 
+   RowBox[{"[", "2", "]"}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.652652775080956*^9, 3.6526527976010237`*^9}, {
+  3.652660175954583*^9, 3.652660176482389*^9}, {3.68459558778625*^9, 
+  3.6845956204580193`*^9}}],
+
+Cell[BoxData["24.56464773527706`"], "Output",
+ CellChangeTimes->{{3.684595589714273*^9, 3.684595645157617*^9}, 
+   3.684598455723044*^9, 3.684598539539659*^9, 3.684598674084684*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+  "1", ",", "0", ",", "1", ",", "0", ",", "0", ",", "1", ",", "0", ",", "0", 
+   ",", "0", ",", "1"}], "}"}]], "Output",
+ CellChangeTimes->{{3.684595589714273*^9, 3.684595645157617*^9}, 
+   3.684598455723044*^9, 3.684598539539659*^9, 3.6845986740900183`*^9}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1918, 1053},
+WindowMargins->{{1, Automatic}, {26, Automatic}},
+FrontEndVersion->"11.0 for Linux x86 (64-bit) (July 28, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 114, 1, 35, "Subsubsection"],
+Cell[697, 25, 9628, 241, 1551, "Input"],
+Cell[10328, 268, 771, 22, 91, "Input"],
+Cell[11102, 292, 596, 12, 75, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11735, 309, 128, 1, 35, "Subsubsection"],
+Cell[11866, 312, 1517, 29, 169, "Input"],
+Cell[CellGroupData[{
+Cell[13408, 345, 162, 3, 32, "Input"],
+Cell[13573, 350, 262, 4, 447, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[13884, 360, 107, 1, 35, "Subsubsection"],
+Cell[13994, 363, 1294, 25, 149, "Input"],
+Cell[CellGroupData[{
+Cell[15313, 392, 129, 2, 32, "Input"],
+Cell[15445, 396, 182, 3, 447, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[15664, 404, 215, 5, 35, "Input"],
+Cell[15882, 411, 294, 6, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[16213, 422, 124, 2, 30, "Input"],
+Cell[16340, 426, 181, 2, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[16558, 433, 99, 2, 32, "Input"],
+Cell[16660, 437, 181, 2, 30, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[16890, 445, 110, 1, 35, "Subsubsection"],
+Cell[17003, 448, 1546, 38, 197, "Input"],
+Cell[CellGroupData[{
+Cell[18574, 490, 547, 12, 59, "Input"],
+Cell[19124, 504, 181, 2, 30, "Output"],
+Cell[19308, 508, 298, 6, 32, "Output"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+
